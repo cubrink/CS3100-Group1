@@ -8,3 +8,4 @@ This is the repo for Group 1 in CS3100 (Software Engineering)
 - Curtis Brinker
 - Midori Lynch
 - Jason Love
+- Stella White
