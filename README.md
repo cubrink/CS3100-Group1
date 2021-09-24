@@ -9,3 +9,4 @@ This is the repo for Group 1 in CS3100 (Software Engineering)
 - Midori Lynch
 - Jason Love (Testing VS push)
 - Stella White
+- Jordan Sanders
