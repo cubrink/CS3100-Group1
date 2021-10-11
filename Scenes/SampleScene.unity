@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3862ff80c67131042a70032f035d9588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missle: {fileID: 8223885244870414987, guid: 0dee1fef870dea34ba7337afb2a1781f, type: 3}
+  missile: {fileID: 8223885244870414987, guid: 0dee1fef870dea34ba7337afb2a1781f, type: 3}
   launchDelay: 2
 --- !u!20 &519420031
 Camera:

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissleLaunchScript : MonoBehaviour
+public class MissileLaunchScript : MonoBehaviour
 {
-    public GameObject missle;
+    public GameObject missile;
     //May want to change launchDelay dynamically later to control difficulty
     public float launchDelay = 1.0f;
     float launchDelayTimer;
@@ -18,7 +18,7 @@ public class MissleLaunchScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Spawns incoming missles at a set interval
+        // Spawns incoming missiles at a set interval
         launchDelayTimer -= Time.deltaTime;
         if (launchDelayTimer < 0)
         {
@@ -27,7 +27,7 @@ public class MissleLaunchScript : MonoBehaviour
             Vector2 position;
             position.x = 0.5f + Random.Range(-8, 8);
             position.y = 0.5f + Random.Range(-8, 8);
-            Instantiate(missle, position, Quaternion.identity);
+            Instantiate(missile, position, Quaternion.identity);
         }
     }
 }
