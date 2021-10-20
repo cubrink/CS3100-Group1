@@ -8,13 +8,16 @@ public class ShipScript : MonoBehaviour
 
     public float speed = 1.0f;
     public bool isVertical = true;
+    public int maxHealth;
 
     float horizontal;
     float vertical;
+    int health;
 
     // Start is called before the first frame update
     void Start()
     {
+        health = maxHealth;
         body = GetComponent<Rigidbody2D>();
 
         if (!isVertical)
@@ -72,5 +75,17 @@ public class ShipScript : MonoBehaviour
         }
 
         body.MovePosition(position);
+    }
+
+    public void ChangeHealth(int amount)
+    {
+        health = Mathf.Clamp(health + amount, 0, maxHealth);
+        Debug.Log(this.name + " health: " + health + "/" + maxHealth);
+
+        if (health <= 0)
+        {
+            Debug.Log(this.name + " destroyed");
+            Destroy(gameObject);
+        }
     }
 }
