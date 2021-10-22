@@ -26,6 +26,12 @@ public class IncomingMissileScript : MonoBehaviour
             bool hit_ship = false;
             foreach (ShipScript ship in ships)
             {
+                if (ship == null || ship.Health <= 0)
+                {
+                    // Skip ships that are not alive
+                    continue;
+                }
+
                 float distance = Vector3.Distance(
                     ship.gameObject.transform.position,
                     gameObject.transform.position
