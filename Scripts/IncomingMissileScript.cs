@@ -6,11 +6,12 @@ public class IncomingMissileScript : MonoBehaviour
 {
     public float missileHitTime = 5.0f;
     float missileTimer;
-
+    ShipScript[] ships;
     // Start is called before the first frame update
     void Start()
     {
         missileTimer = 0;
+        ships = FindObjectsOfType<ShipScript>();
     }
 
     // Update is called once per frame
@@ -22,7 +23,26 @@ public class IncomingMissileScript : MonoBehaviour
         transform.localScale = new Vector3(diameter, diameter, 0f);
         if (missileTimer > missileHitTime)
         {
-            // Spawn Hit/Miss script instance
+            bool hit_ship = false;
+            foreach (ShipScript ship in ships)
+            {
+                float distance = Vector3.Distance(
+                    ship.gameObject.transform.position,
+                    gameObject.transform.position
+                );
+                if (distance <= diameter)
+                {
+                    // The ship has been hit
+                    ship.ChangeHealth(-1);
+                    hit_ship = true;
+                }
+            }
+
+            if (!hit_ship)
+            {
+                // Instantiate a cannonball prefab
+                // Where is this script called from!?
+            }
             Destroy(transform.parent.gameObject);
         }
     }
