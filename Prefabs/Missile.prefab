@@ -95,7 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926d506132f5e1546a9f2215fc22a8c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missleHitTime: 3
+  missileHitTime: 5
+  miss: {fileID: 766378094887779430, guid: c31dbb1a81cb1dd4b90bec3535a52fdf, type: 3}
 --- !u!1 &8223885244870414987
 GameObject:
   m_ObjectHideFlags: 0

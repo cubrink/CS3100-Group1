@@ -14,6 +14,11 @@ public class ShipScript : MonoBehaviour
     float vertical;
     int health;
 
+    public int Health
+    {
+        get { return health; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
