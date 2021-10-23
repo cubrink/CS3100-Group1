@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class IncomingMissileScript : MonoBehaviour
 {
+    public GameObject miss;
     public float missileHitTime = 5.0f;
     float missileTimer;
     ShipScript[] ships;
+
     // Start is called before the first frame update
     void Start()
     {
-        missileTimer = 0;
         ships = FindObjectsOfType<ShipScript>();
+        missileTimer = 0;
     }
 
     // Update is called once per frame
@@ -23,33 +25,39 @@ public class IncomingMissileScript : MonoBehaviour
         transform.localScale = new Vector3(diameter, diameter, 0f);
         if (missileTimer > missileHitTime)
         {
-            bool hit_ship = false;
-            foreach (ShipScript ship in ships)
-            {
-                if (ship == null || ship.Health <= 0)
-                {
-                    // Skip ships that are not alive
-                    continue;
-                }
-
-                float distance = Vector3.Distance(
-                    ship.gameObject.transform.position,
-                    gameObject.transform.position
-                );
-                if (distance <= diameter)
-                {
-                    // The ship has been hit
-                    ship.ChangeHealth(-1);
-                    hit_ship = true;
-                }
-            }
-
-            if (!hit_ship)
-            {
-                // Instantiate a cannonball prefab
-                // Where is this script called from!?
-            }
-            Destroy(transform.parent.gameObject);
+            DetectHit(diameter);
         }
+    }
+
+    void DetectHit(float diameter)
+    {
+        bool hit_ship = false;
+        foreach (ShipScript ship in ships)
+        {
+            if (ship == null || ship.Health <= 0)
+            {
+                // Skip ships that are not alive
+                continue;
+            }
+
+            // Get distance between missle and ship
+            float distance = Vector3.Distance(
+                ship.gameObject.transform.position,
+                gameObject.transform.position
+            );
+
+            if (distance <= diameter)
+            {
+                // The ship has been hit
+                ship.ChangeHealth(-1);
+                hit_ship = true;
+            }
+        }
+
+        if (!hit_ship)
+        {
+            Instantiate(miss, gameObject.transform.position, Quaternion.identity);
+        }
+        Destroy(transform.parent.gameObject);
     }
 }
