@@ -7,7 +7,7 @@ public class ShipScript : MonoBehaviour
     Rigidbody2D body;
 
     public float speed = 1.0f;
-    public bool isVertical = true;
+    public bool isVertical = false;
     public int maxHealth;
 
     float horizontal;
@@ -25,16 +25,16 @@ public class ShipScript : MonoBehaviour
         health = maxHealth;
         body = GetComponent<Rigidbody2D>();
 
-        if (!isVertical)
+        if (isVertical)
         {
-            // Rotate ship to be horizontal
+            // Rotate ship to be vertical
             body.SetRotation(body.rotation + 90.0f);
             // Constrain rotation and movement in wrong direction
-            body.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+            body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
         else
         {
-            body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            body.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         }
     }
 
