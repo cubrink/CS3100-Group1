@@ -28,7 +28,7 @@ public class ShipScript : MonoBehaviour
         if (isVertical)
         {
             // Rotate ship to be vertical
-            body.SetRotation(body.rotation + 90.0f);
+            //body.SetRotation(body.rotation + 90.0f);
             // Constrain rotation and movement in wrong direction
             body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
@@ -36,6 +36,7 @@ public class ShipScript : MonoBehaviour
         {
             body.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         }
+
     }
 
     // Update is called once per frame
@@ -56,9 +57,9 @@ public class ShipScript : MonoBehaviour
             // Move ship if the corresponding key is held
             if (Input.GetKey(KeyCode.Alpha1) && this.name == "Destroyer")
                 position.y = position.y + speed * vertical * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha2) && this.name == "Submarine")
+            if (Input.GetKey(KeyCode.Alpha2) && this.name == "Cruiser")
                 position.y = position.y + speed * vertical * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha3) && this.name == "Cruiser")
+            if (Input.GetKey(KeyCode.Alpha3) && this.name == "Submarine")
                 position.y = position.y + speed * vertical * Time.deltaTime;
             if (Input.GetKey(KeyCode.Alpha4) && this.name == "Battleship")
                 position.y = position.y + speed * vertical * Time.deltaTime;
@@ -69,9 +70,9 @@ public class ShipScript : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Alpha1) && this.name == "Destroyer")
                 position.x = position.x + speed * horizontal * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha2) && this.name == "Submarine")
+            if (Input.GetKey(KeyCode.Alpha2) && this.name == "Cruiser")
                 position.x = position.x + speed * horizontal * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha3) && this.name == "Cruiser")
+            if (Input.GetKey(KeyCode.Alpha3) && this.name == "Submarine")
                 position.x = position.x + speed * horizontal * Time.deltaTime;
             if (Input.GetKey(KeyCode.Alpha4) && this.name == "Battleship")
                 position.x = position.x + speed * horizontal * Time.deltaTime;

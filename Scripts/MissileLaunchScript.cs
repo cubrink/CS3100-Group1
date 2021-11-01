@@ -25,8 +25,8 @@ public class MissileLaunchScript : MonoBehaviour
             launchDelayTimer = launchDelay;
             // Pick a random position on the grid
             Vector2 position;
-            position.x = 0.5f + Random.Range(-8, 8);
-            position.y = 0.5f + Random.Range(-8, 8);
+            position.x = 0.5f + Random.Range(-6, 6);
+            position.y = 0.5f + Random.Range(-6, 6);
             Instantiate(missile, position, Quaternion.identity);
         }
     }
