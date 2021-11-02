@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6848621913021905523}
   - component: {fileID: 2210723426820999612}
   - component: {fileID: 5896405670652244636}
+  - component: {fileID: 1502923584067155678}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6808555608580071304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 1}
   m_Children: []
   m_Father: {fileID: 5486157405499126387}
   m_RootOrder: 0
@@ -95,8 +96,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926d506132f5e1546a9f2215fc22a8c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missileHitTime: 5
   miss: {fileID: 766378094887779430, guid: c31dbb1a81cb1dd4b90bec3535a52fdf, type: 3}
+  missileHitTime: 5
+--- !u!58 &1502923584067155678
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6808555608580071304}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &8223885244870414987
 GameObject:
   m_ObjectHideFlags: 0
