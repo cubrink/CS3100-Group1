@@ -7,12 +7,15 @@ public class IncomingMissileScript : MonoBehaviour
     public GameObject miss;
     public float missileHitTime = 5.0f;
     float missileTimer;
-    ShipScript[] ships;
+    //ShipScript[] ships;
+    bool missileLand = false;
+    bool shipTarget = false;
+    ShipScript targetShip;
 
     // Start is called before the first frame update
     void Start()
     {
-        ships = FindObjectsOfType<ShipScript>();
+        //ships = FindObjectsOfType<ShipScript>();
         missileTimer = 0;
     }
 
@@ -25,10 +28,21 @@ public class IncomingMissileScript : MonoBehaviour
         transform.localScale = new Vector3(diameter, diameter, 0f);
         if (missileTimer > missileHitTime)
         {
-            DetectHit(diameter);
+            //DetectHit(diameter);
+            missileLand = true;
+        }
+
+        if (missileLand)
+        {
+            if (shipTarget)
+                targetShip.ChangeHealth(-1);
+            else
+                Instantiate(miss, gameObject.transform.position, Quaternion.identity);
+            Destroy(transform.parent.gameObject);
         }
     }
 
+    /*
     void DetectHit(float diameter)
     {
         bool hit_ship = false;
@@ -59,5 +73,28 @@ public class IncomingMissileScript : MonoBehaviour
             Instantiate(miss, gameObject.transform.position, Quaternion.identity);
         }
         Destroy(transform.parent.gameObject);
+    }
+    */
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        ShipScript ship = other.gameObject.GetComponent<ShipScript>();
+
+        if (ship != null)
+        {
+            shipTarget = true;
+            targetShip = ship;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        ShipScript ship = other.gameObject.GetComponent<ShipScript>();
+
+        if (ship != null)
+        {
+            shipTarget = false;
+            targetShip = null;
+        }
     }
 }
