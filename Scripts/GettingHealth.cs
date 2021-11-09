@@ -17,30 +17,39 @@ public class GettingHealth : MonoBehaviour
     {
         if(found)
         {
-            currentship.ChangeHealth(1);
+            Destroy(gameObject);
         }
 
     }
     
      void OnTriggerEnter2D(Collider2D other)
     {
-        ShipScript ship = other.gameObject.GetComponent<ShipScript>();
-
-        if (ship != null)
+        if(other.gameObject.tag=="Missle")
         {
-            found = true;
-            currentship = ship;
+            Destroy(other.gameObject);
+        }
+        else if(other.gameObject.tag=="Cannonball")
+        {
+            Destroy(other.gameObject);
+            found=true;
+        }
+        else
+        {
+            ShipScript ship = other.gameObject.GetComponent<ShipScript>();
+
+            if (ship != null)
+            {
+                found = true;
+                currentship = ship;
+                currentship.ChangeHealth(1);
+            }
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        ShipScript ship = other.gameObject.GetComponent<ShipScript>();
-
-        if (ship != null)
-        {
-            found = false;
-            currentship = null;
-        }
+        
+        found = false;
+        currentship = null;
     }
 }
