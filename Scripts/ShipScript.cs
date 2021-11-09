@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class ShipScript : MonoBehaviour
 {
+    PlacerScript levelController;
+
+    Collider2D coll;
     Rigidbody2D body;
 
     public float speed = 1.0f;
-    public bool isVertical = false;
     public int maxHealth;
 
     float horizontal;
     float vertical;
     int health;
+    bool isVertical = false;
+    bool validPlacement = true;
 
     public int Health
     {
@@ -22,21 +26,10 @@ public class ShipScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        levelController = FindObjectOfType<PlacerScript>();
         health = maxHealth;
         body = GetComponent<Rigidbody2D>();
-
-        if (isVertical)
-        {
-            // Rotate ship to be vertical
-            //body.SetRotation(body.rotation + 90.0f);
-            // Constrain rotation and movement in wrong direction
-            body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-        }
-        else
-        {
-            body.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-        }
-
+        coll = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
@@ -49,38 +42,42 @@ public class ShipScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 position = body.position;
-
-        // Ship moves on parallel axis
-        if (isVertical)
+        //Wait for ships to be placed
+        if (levelController.ShipsReady())
         {
-            // Move ship if the corresponding key is held
-            if (Input.GetKey(KeyCode.Alpha1) && this.name == "Destroyer")
-                position.y = position.y + speed * vertical * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha2) && this.name == "Cruiser")
-                position.y = position.y + speed * vertical * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha3) && this.name == "Submarine")
-                position.y = position.y + speed * vertical * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha4) && this.name == "Battleship")
-                position.y = position.y + speed * vertical * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha5) && this.name == "Carrier")
-                position.y = position.y + speed * vertical * Time.deltaTime;
-        }
-        else
-        {
-            if (Input.GetKey(KeyCode.Alpha1) && this.name == "Destroyer")
-                position.x = position.x + speed * horizontal * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha2) && this.name == "Cruiser")
-                position.x = position.x + speed * horizontal * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha3) && this.name == "Submarine")
-                position.x = position.x + speed * horizontal * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha4) && this.name == "Battleship")
-                position.x = position.x + speed * horizontal * Time.deltaTime;
-            if (Input.GetKey(KeyCode.Alpha5) && this.name == "Carrier")
-                position.x = position.x + speed * horizontal * Time.deltaTime;
-        }
+            Vector2 position = body.position;
 
-        body.MovePosition(position);
+            // Ship moves on parallel axis
+            if (isVertical)
+            {
+                // Move ship if the corresponding key is held
+                if (Input.GetKey(KeyCode.Alpha1) && this.name == "Destroyer(Clone)")
+                    position.y = position.y + speed * vertical * Time.deltaTime;
+                if (Input.GetKey(KeyCode.Alpha2) && this.name == "Cruiser(Clone)")
+                    position.y = position.y + speed * vertical * Time.deltaTime;
+                if (Input.GetKey(KeyCode.Alpha3) && this.name == "Submarine(Clone)")
+                    position.y = position.y + speed * vertical * Time.deltaTime;
+                if (Input.GetKey(KeyCode.Alpha4) && this.name == "Battleship(Clone)")
+                    position.y = position.y + speed * vertical * Time.deltaTime;
+                if (Input.GetKey(KeyCode.Alpha5) && this.name == "Carrier(Clone)")
+                    position.y = position.y + speed * vertical * Time.deltaTime;
+            }
+            else
+            {
+                if (Input.GetKey(KeyCode.Alpha1) && this.name == "Destroyer(Clone)")
+                    position.x = position.x + speed * horizontal * Time.deltaTime;
+                if (Input.GetKey(KeyCode.Alpha2) && this.name == "Cruiser(Clone)")
+                    position.x = position.x + speed * horizontal * Time.deltaTime;
+                if (Input.GetKey(KeyCode.Alpha3) && this.name == "Submarine(Clone)")
+                    position.x = position.x + speed * horizontal * Time.deltaTime;
+                if (Input.GetKey(KeyCode.Alpha4) && this.name == "Battleship(Clone)")
+                    position.x = position.x + speed * horizontal * Time.deltaTime;
+                if (Input.GetKey(KeyCode.Alpha5) && this.name == "Carrier(Clone)")
+                    position.x = position.x + speed * horizontal * Time.deltaTime;
+            }
+
+            body.MovePosition(position);
+        }
     }
 
     public void ChangeHealth(int amount)
@@ -93,5 +90,93 @@ public class ShipScript : MonoBehaviour
             Debug.Log(this.name + " destroyed");
             Destroy(gameObject);
         }
+    }
+    
+
+    //Movement functions for placing ships
+    public void MoveUp()
+    {
+        Vector2 position = body.position;
+        if (position.y < 5f)
+            position.y += 1;
+        body.MovePosition(position);
+    }
+
+    public void MoveRight()
+    {
+        Vector2 position = body.position;
+        if (position.x < 5f)
+            position.x += 1;
+        body.MovePosition(position);
+    }
+
+    public void MoveDown()
+    {
+        Vector2 position = body.position;
+        if (position.y > -5f)
+            position.y -= 1;
+        body.MovePosition(position);
+    }
+
+    public void MoveLeft()
+    {
+        Vector2 position = body.position;
+        if (position.x > -5f)
+            position.x -= 1;
+        body.MovePosition(position);
+    }
+
+    public void Rotate()
+    {
+        Vector2 position = body.position;
+        //Special rotate for "even" sized ships
+        if (this.name == "Destroyer(Clone)" || this.name == "Battleship(Clone)")
+        {
+            if (position.x < 5f && position.y < 5f)
+            {
+                position.x += 0.5f;
+                position.y += 0.5f;
+            }
+            else
+            {
+                position.x -= 0.5f;
+                position.y -= 0.5f;
+            }
+        }
+        body.MovePosition(position);
+        body.SetRotation(body.rotation + 90.0f);
+        isVertical = !isVertical;
+    }
+
+
+    //Ship placement functions
+    public void ToggleCollider()
+    {
+        coll.isTrigger = !coll.isTrigger;
+    }
+
+    public void AddContraints()
+    {
+        if (isVertical)
+            body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        else
+            body.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        validPlacement = false;
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        validPlacement = true;
+    }
+
+    public bool VerifyPlacement()
+    {
+        if (!validPlacement)
+            Debug.Log("Invalid Placement");
+        return validPlacement;
     }
 }
