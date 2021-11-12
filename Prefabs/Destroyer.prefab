@@ -180,6 +180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188d026fdf25acd4c938501b90a61171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HP1: {fileID: 21300000, guid: bdfc69672b3a81148814cbeefc0c1557, type: 3}
+  HP2: {fileID: 21300000, guid: bdf7906726aca994d95bb260aa01e5c1, type: 3}
+  HP3: {fileID: 0}
+  HP4: {fileID: 0}
+  HP5: {fileID: 0}
   speed: 1
   maxHealth: 2
 --- !u!50 &4849990149911638455

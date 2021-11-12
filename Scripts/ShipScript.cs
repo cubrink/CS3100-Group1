@@ -9,6 +9,13 @@ public class ShipScript : MonoBehaviour
     Collider2D coll;
     Rigidbody2D body;
 
+    // Sprites for each HP.
+    public Sprite HP1;
+    public Sprite HP2;
+    public Sprite HP3;
+    public Sprite HP4;
+    public Sprite HP5;
+
     public float speed = 1.0f;
     public int maxHealth;
 
@@ -89,6 +96,25 @@ public class ShipScript : MonoBehaviour
         {
             Debug.Log(this.name + " destroyed");
             Destroy(gameObject);
+        }
+        // Update sprite to indicate current health via switch statement. If there's no HP it happily ignores it.
+        switch(health)
+        {
+            case 1:
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = HP1;
+                break;
+            case 2:
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = HP2;
+                break;
+            case 3:
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = HP3;
+                break;
+            case 4:
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = HP4;
+                break;
+            case 5:
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = HP5;
+                break;
         }
     }
     

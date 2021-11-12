@@ -98,6 +98,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188d026fdf25acd4c938501b90a61171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HP1: {fileID: 21300000, guid: c9eba2782cbe2c14b9c5e0d8c25e38a3, type: 3}
+  HP2: {fileID: 21300000, guid: a6c6ef7b3f5098347b2a847aa76f9dbe, type: 3}
+  HP3: {fileID: 21300000, guid: 00ab4602db46fd143878f5a19b7807af, type: 3}
+  HP4: {fileID: 21300000, guid: 6327b77d4adde1945b15653b0dccbe8e, type: 3}
+  HP5: {fileID: 21300000, guid: a50718f06ce6ea34daf95ca1dd792118, type: 3}
   speed: 1
   maxHealth: 5
 --- !u!50 &2043128567033730942
