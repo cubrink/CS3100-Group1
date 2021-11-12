@@ -35,9 +35,13 @@ public class IncomingMissileScript : MonoBehaviour
         if (missileLand)
         {
             if (shipTarget)
+            {
                 targetShip.ChangeHealth(-1);
+            }
             else
+            {
                 Instantiate(miss, gameObject.transform.position, Quaternion.identity);
+            }
             Destroy(transform.parent.gameObject);
         }
     }
