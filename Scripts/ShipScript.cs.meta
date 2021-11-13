@@ -3,7 +3,14 @@ guid: 188d026fdf25acd4c938501b90a61171
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - HP1: {instanceID: 0}
+  - HP2: {instanceID: 0}
+  - HP3: {instanceID: 0}
+  - HP4: {instanceID: 0}
+  - HP5: {instanceID: 0}
+  - source: {instanceID: 0}
+  - waterSink: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
