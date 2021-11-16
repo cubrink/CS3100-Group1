@@ -39,9 +39,13 @@ public class GettingHealth : MonoBehaviour
 
             if (ship != null)
             {
-                found = true;
-                currentship = ship;
-                currentship.ChangeHealth(1);
+                //So ships can't pick up health between rounds
+                if (!ship.IsATrigger())
+                {
+                    found = true;
+                    currentship = ship;
+                    currentship.ChangeHealth(1);
+                }
             }
         }
     }

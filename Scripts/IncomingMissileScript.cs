@@ -11,19 +11,22 @@ public class IncomingMissileScript : MonoBehaviour
     bool missileLand = false;
     bool shipTarget = false;
     ShipScript targetShip;
+    PlacerScript levelController;
 
     // Start is called before the first frame update
     void Start()
     {
         //ships = FindObjectsOfType<ShipScript>();
         missileTimer = 0;
+        levelController = FindObjectOfType<PlacerScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
         // Red circle get bigger to indicate when the missile will "land"
-        missileTimer += Time.deltaTime;
+        if (levelController.ShipsReady())
+            missileTimer += Time.deltaTime;
         float diameter = (missileTimer / missileHitTime) * 1.15f;
         transform.localScale = new Vector3(diameter, diameter, 0f);
         if (missileTimer > missileHitTime)

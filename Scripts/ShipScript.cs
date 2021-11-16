@@ -181,12 +181,22 @@ public class ShipScript : MonoBehaviour
         coll.isTrigger = !coll.isTrigger;
     }
 
-    public void AddContraints()
+    public bool IsATrigger()
+    {
+        return coll.isTrigger;
+    }
+
+    public void AddConstraints()
     {
         if (isVertical)
             body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         else
             body.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    public void RemoveConstraints()
+    {
+        body.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     void OnTriggerStay2D(Collider2D other)
