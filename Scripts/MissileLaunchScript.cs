@@ -30,10 +30,7 @@ public class MissileLaunchScript : MonoBehaviour
                 launchDelayTimer = launchDelay;
                 // Pick a random position on the grid
                 //vector2 position;
-                //position.x = 0.5f + random.range(-6, 6);
-                //position.y = 0.5f + random.range(-6, 6);
-                //instantiate(missile, position, quaternion.identity);
-                LaunchScatter();
+                LaunchWeakestInline();
             }
         }
     }
@@ -56,6 +53,8 @@ public class MissileLaunchScript : MonoBehaviour
         return obstacles;
     }
 
+
+
     /*
      * Launch a missile at a random position
      */
@@ -77,52 +76,6 @@ public class MissileLaunchScript : MonoBehaviour
         }
     }
 
-    /*
-     * Launch a missile in line with a random ship
-     */
-    void LaunchInline()
-    {
-        HashSet<Vector2> obstacles = GetExistingMissiles();
-        ShipScript[] ships = FindObjectsOfType<ShipScript>();
-
-        if (ships.Length < 1)
-        {
-            // No ships found, exit
-            Debug.Log("Attempted to launch missile inline but no ships found");
-            return;
-        }
-        ShipScript ship = ships[Random.Range(0, ships.Length)];
-
-        
-        for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
-        {
-            // Pick a random value along the axis of movement of the ship
-            // Funky rounding is needed in case another ship has push the ship 'off the grid'
-            Vector2 target;
-            if (ship.is_vertical)
-            {
-                target.x = (float) System.Math.Round(
-                    (ship.transform.position.x - 0.5f),
-                    System.MidpointRounding.AwayFromZero
-                ) + 0.5f;
-                target.y = 0.5f + Random.Range(-6, 6);
-            }
-            else
-            {
-                target.x = 0.5f + Random.Range(-6, 6);
-                target.y = (float) System.Math.Round(
-                    (ship.transform.position.y - 0.5f),
-                    System.MidpointRounding.AwayFromZero
-                ) + 0.5f;
-            }
-            Debug.Log("Target: " + target);
-            if (!obstacles.Contains(target))
-            {
-                Instantiate(missile, target, Quaternion.identity);
-                break;
-            }
-        }
-    }
 
     /*
      * Launches several missiles concurrently, landing in random positions
@@ -132,7 +85,6 @@ public class MissileLaunchScript : MonoBehaviour
         HashSet<Vector2> obstacles = GetExistingMissiles();
         int missile_count = Random.Range(4, 9);
         List<Vector2> targets = new List<Vector2>();
-
         for (int attempt = 0; targets.Count < missile_count && attempt < MAX_ATTEMPTS; attempt++)
         {
             Vector2 target;
@@ -154,8 +106,104 @@ public class MissileLaunchScript : MonoBehaviour
     /*
      * Launches a missile in line with the weakest ship
      */
-    void LaunchWeakest()
+    void LaunchWeakestInline()
     {
-        return;
+        ShipScript ship = SelectWeakestShip();
+        _LaunchInline(ship);
+    }
+
+    /*
+     * Launches a missile in line with the weakest ship
+     */
+    void LaunchRandomInline()
+    { 
+        ShipScript ship = SelectRandomShip();
+        _LaunchInline(ship);
+    }
+
+    /*
+     * Launch a missile in line with a ship
+     */
+    void _LaunchInline(ShipScript ship)
+    {
+        HashSet<Vector2> obstacles = GetExistingMissiles();
+        for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
+        {
+            // Pick a random value along the axis of movement of the ship
+            // Funky rounding is needed in case another ship has push the ship 'off the grid'
+            Vector2 target;
+            if (ship.is_vertical)
+            {
+                target.x = (float)System.Math.Round(
+                    (ship.transform.position.x - 0.5f),
+                    System.MidpointRounding.AwayFromZero
+                ) + 0.5f;
+                target.y = 0.5f + Random.Range(-6, 6);
+            }
+            else
+            {
+                target.x = 0.5f + Random.Range(-6, 6);
+                target.y = (float)System.Math.Round(
+                    (ship.transform.position.y - 0.5f),
+                    System.MidpointRounding.AwayFromZero
+                ) + 0.5f;
+            }
+            if (!obstacles.Contains(target))
+            {
+                Instantiate(missile, target, Quaternion.identity);
+                break;
+            }
+        }
+    }
+
+    ShipScript SelectRandomShip()
+    {
+        ShipScript[] ships = FindObjectsOfType<ShipScript>();
+        if (ships.Length < 1)
+        {
+            // No ships found, exit
+            Debug.Log("Attempted to launch missile inline but no ships found");
+            return null;
+        }
+        ShipScript ship = ships[Random.Range(0, ships.Length)];
+        return ship;
+    }
+
+    ShipScript SelectWeakestShip()
+    {
+        ShipScript[] ships = FindObjectsOfType<ShipScript>();
+
+        if (ships.Length < 1)
+        {
+            // No ships found, exit
+            Debug.Log("Attempted to launch missile inline but no ships found");
+            return null;
+        }
+
+        float min_ratio = 1;
+        ShipScript min_ship = ships[0];
+
+        foreach (ShipScript ship in ships)
+        {
+            float ratio = (float)(ship.Health / ship.maxHealth);
+            if (ratio == min_ratio)
+            {
+                // Make it randomly flip, all other things being equal
+                // This helps a bit as otherwise it only targets the largest ship first
+                // (which isn't very fun)
+                // This still isn't even close to mathematically fair but this is quick to implement
+                if (Random.Range(0, 2) == 1) {
+                    // Flip a coin, switch if needed
+                    min_ship = ship;
+                }
+            }
+            else if (ratio < min_ratio)
+            {
+                min_ratio = ratio;
+                min_ship = ship;
+            }
+            
+        }
+        return min_ship;
     }
 }
