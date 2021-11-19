@@ -30,7 +30,9 @@ public class MissileLaunchScript : MonoBehaviour
                 launchDelayTimer = launchDelay;
                 // Pick a random position on the grid
                 //vector2 position;
-                LaunchWeakestInline();
+
+                // TODO: Add mechanism (per level?) to pick firing strategy
+                LaunchRandom();
             }
         }
     }
