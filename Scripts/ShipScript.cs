@@ -30,6 +30,11 @@ public class ShipScript : MonoBehaviour
         get { return health; }
     }
 
+    public bool is_vertical
+    {
+        get { return isVertical;  }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
