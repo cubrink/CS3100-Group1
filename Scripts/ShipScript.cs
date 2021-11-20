@@ -130,6 +130,8 @@ public class ShipScript : MonoBehaviour
         Vector2 position = body.position;
         if (position.y < 5f)
             position.y += 1;
+        if (!isVertical)
+            position.y = (float)System.Math.Round(position.y - 0.5f, System.MidpointRounding.AwayFromZero) + 0.5f;
         body.MovePosition(position);
     }
 
@@ -138,6 +140,8 @@ public class ShipScript : MonoBehaviour
         Vector2 position = body.position;
         if (position.x < 5f)
             position.x += 1;
+        if (isVertical)
+            position.x = (float)System.Math.Round(position.x - 0.5f, System.MidpointRounding.AwayFromZero) + 0.5f;
         body.MovePosition(position);
     }
 
@@ -146,6 +150,8 @@ public class ShipScript : MonoBehaviour
         Vector2 position = body.position;
         if (position.y > -5f)
             position.y -= 1;
+        if (!isVertical)
+            position.y = (float)System.Math.Round(position.y - 0.5f, System.MidpointRounding.AwayFromZero) + 0.5f;
         body.MovePosition(position);
     }
 
@@ -154,6 +160,8 @@ public class ShipScript : MonoBehaviour
         Vector2 position = body.position;
         if (position.x > -5f)
             position.x -= 1;
+        if (isVertical)
+            position.x = (float)System.Math.Round(position.x - 0.5f, System.MidpointRounding.AwayFromZero) + 0.5f;
         body.MovePosition(position);
     }
 

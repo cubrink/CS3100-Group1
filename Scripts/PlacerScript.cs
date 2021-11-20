@@ -101,7 +101,11 @@ public class PlacerScript : MonoBehaviour
         }
 
         //Ship needs to be moved
-        if (!newShip && !shipsPlaced && !levelEnd)
+        if (currentShip == null)
+        {
+            newShip = true;
+        }
+        else if (!newShip && !shipsPlaced && !levelEnd)
         {
             //Move ship
             ShipScript curShip = currentShip.GetComponent<ShipScript>();
