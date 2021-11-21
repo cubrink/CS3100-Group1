@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlacerScript : MonoBehaviour
 {
+    public CanvasGroup gameOver;
     public GameObject ship1;
     public GameObject ship2;
     public GameObject ship3;
@@ -21,6 +22,7 @@ public class PlacerScript : MonoBehaviour
     bool levelEnd = false;
     bool shipsPlaced = false;
     bool newShip = true;
+    bool isGameOver = false;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +38,7 @@ public class PlacerScript : MonoBehaviour
         {
             //Controls rounds and when ships are active
             roundTimer -= Time.deltaTime;
-            if (roundTimer < 0)
+            if (roundTimer < 0 && isGameOver == false)
             {
                 Debug.Log("Round " + roundCounter + " Complete");
                 roundCounter += 1;
@@ -100,12 +102,11 @@ public class PlacerScript : MonoBehaviour
             newShip = false;
         }
 
+        //Debug.Log(ctr);
         //Ship needs to be moved
-        if (currentShip == null)
-        {
+        if (!shipsPlaced && currentShip == null)
             newShip = true;
-        }
-        else if (!newShip && !shipsPlaced && !levelEnd)
+        if (!newShip && !shipsPlaced && !levelEnd)
         {
             //Move ship
             ShipScript curShip = currentShip.GetComponent<ShipScript>();
@@ -122,20 +123,17 @@ public class PlacerScript : MonoBehaviour
 
             //Place ship
             if (Input.GetKeyDown(KeyCode.Space) && curShip.VerifyPlacement())
-            {
                 newShip = true;
-                if (ctr == 6)
-                {
-                    ships = FindObjectsOfType<ShipScript>();
-                    foreach (ShipScript ship in ships)
-                    {
-                        ship.ToggleCollider();
-                    }
-                    shipsPlaced = true;
-                    newShip = false;
-                    ctr = 1;
-                }
-            }
+        }
+        //Switch to gameplay
+        if (ctr >= 7)
+        {
+            ships = FindObjectsOfType<ShipScript>();
+            foreach (ShipScript ship in ships)
+                ship.ToggleCollider();
+            shipsPlaced = true;
+            newShip = false;
+            ctr = 1;
         }
 
         //Press enter to load next level
@@ -144,11 +142,29 @@ public class PlacerScript : MonoBehaviour
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.buildIndex + 1);
         }
+
+        //Press enter to retry level
+        if (isGameOver && Input.GetKeyDown(KeyCode.Return))
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.buildIndex);
+        }
     }
 
     //Used to start gameplay
     public bool ShipsReady()
     {
         return shipsPlaced;
+    }
+
+    public void EndGame()
+    {
+        ships = FindObjectsOfType<ShipScript>();
+        if (ships.Length <= 1)
+        {
+            //Display game over
+            gameOver.alpha = 1;
+            isGameOver = true;
+        }
     }
 }

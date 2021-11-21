@@ -100,6 +100,8 @@ public class ShipScript : MonoBehaviour
         if (health <= 0)
         {
             Debug.Log(this.name + " destroyed");
+            //Check to see if any ships will remain
+            levelController.EndGame();
             Destroy(gameObject);
         }
         // Update sprite to indicate current health via switch statement. If there's no HP it happily ignores it.
@@ -214,7 +216,8 @@ public class ShipScript : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
-        validPlacement = false;
+        if (other.tag != "Missile")
+            validPlacement = false;
     }
 
     void OnTriggerExit2D(Collider2D other)
