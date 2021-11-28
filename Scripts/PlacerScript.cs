@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlacerScript : MonoBehaviour
 {
     public CanvasGroup gameOver;
+    public CanvasGroup nextLevel;
     public GameObject ship1;
     public GameObject ship2;
     public GameObject ship3;
@@ -46,6 +47,7 @@ public class PlacerScript : MonoBehaviour
                 {
                     Debug.Log("Level Complete");
                     levelEnd = true;
+                    nextLevel.alpha = 1;
                     //Display score
                 }
                 roundTimer = roundTime;

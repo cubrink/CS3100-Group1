@@ -13,6 +13,17 @@ public class IncomingMissileScript : MonoBehaviour
     ShipScript targetShip;
     PlacerScript levelController;
 
+    void Awake()
+    {
+        //Audio for missile launch needs to be lowered if scatter strategy is
+        //being used because it is very loud
+        AudioSource audioSource = GetComponent<AudioSource>();
+        MissileLaunchScript missileLaunch = FindObjectOfType<MissileLaunchScript>();
+        if (missileLaunch.launchSelect == 3)
+            audioSource.volume = 0.1f;
+        audioSource.Play();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

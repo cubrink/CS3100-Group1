@@ -6,6 +6,7 @@ public class MissileLaunchScript : MonoBehaviour
 {
     PlacerScript levelController;
     public GameObject missile;
+    public int launchSelect = 1;
     //May want to change launchDelay dynamically later to control difficulty
     public float launchDelay = 1.0f;
     float launchDelayTimer;
@@ -32,7 +33,16 @@ public class MissileLaunchScript : MonoBehaviour
                 //vector2 position;
 
                 // TODO: Add mechanism (per level?) to pick firing strategy
-                LaunchRandom();
+                if (launchSelect == 1)
+                    LaunchRandom();
+                else if (launchSelect == 2)
+                    LaunchRandomInline();
+                else if (launchSelect == 3)
+                    LaunchScatter();
+                else if (launchSelect == 4)
+                    LaunchWeakestInline();
+                else
+                    Debug.Log("Firing strategy not selected");
             }
         }
     }
@@ -115,7 +125,7 @@ public class MissileLaunchScript : MonoBehaviour
     }
 
     /*
-     * Launches a missile in line with the weakest ship
+     * Launches a missile in line with a random ship
      */
     void LaunchRandomInline()
     { 
