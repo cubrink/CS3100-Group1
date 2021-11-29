@@ -44,6 +44,7 @@ public class GettingHealth : MonoBehaviour
                 {
                     found = true;
                     currentship = ship;
+                    FindObjectOfType<AudioManager>().Play("repair");
                     currentship.ChangeHealth(1);
                 }
             }

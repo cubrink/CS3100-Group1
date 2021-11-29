@@ -40,12 +40,14 @@ public class PausedScript : MonoBehaviour
 
     public void LoadMenu()
     {
+        FindObjectOfType<AudioManager>().Play("buttonClick");
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
 
     public void QuitGame()
     {
+        FindObjectOfType<AudioManager>().Play("buttonClick");
         Debug.Log("Exiting Game.");
         Application.Quit();
     }

@@ -50,6 +50,7 @@ public class IncomingMissileScript : MonoBehaviour
         {
             if (shipTarget)
             {
+                FindObjectOfType<AudioManager>().Play("damage");
                 targetShip.ChangeHealth(-1);
             }
             else

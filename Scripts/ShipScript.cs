@@ -99,6 +99,7 @@ public class ShipScript : MonoBehaviour
 
         if (health <= 0)
         {
+            FindObjectOfType<AudioManager>().Play("sink");
             Debug.Log(this.name + " destroyed");
             //Check to see if any ships will remain
             levelController.EndGame();
