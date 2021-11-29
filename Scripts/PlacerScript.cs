@@ -7,6 +7,7 @@ public class PlacerScript : MonoBehaviour
 {
     public CanvasGroup gameOver;
     public CanvasGroup nextLevel;
+    public CanvasGroup nextRound;
     public GameObject ship1;
     public GameObject ship2;
     public GameObject ship3;
@@ -24,12 +25,14 @@ public class PlacerScript : MonoBehaviour
     bool shipsPlaced = false;
     bool newShip = true;
     bool isGameOver = false;
+    AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
         roundTimer = roundTime;
         roundCounter = 1;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -42,6 +45,8 @@ public class PlacerScript : MonoBehaviour
             if (roundTimer < 0 && isGameOver == false)
             {
                 Debug.Log("Round " + roundCounter + " Complete");
+                if (roundCounter < roundCount)
+                    nextRound.alpha = 1;
                 roundCounter += 1;
                 if (roundCounter > roundCount)
                 {
@@ -126,6 +131,8 @@ public class PlacerScript : MonoBehaviour
             //Place ship
             if (Input.GetKeyDown(KeyCode.Space) && curShip.VerifyPlacement())
                 newShip = true;
+            else if (Input.GetKeyDown(KeyCode.Space) && !curShip.VerifyPlacement())
+                audioSource.Play();
         }
         //Switch to gameplay
         if (ctr >= 7)
@@ -134,6 +141,7 @@ public class PlacerScript : MonoBehaviour
             foreach (ShipScript ship in ships)
                 ship.ToggleCollider();
             shipsPlaced = true;
+            nextRound.alpha = 0;
             newShip = false;
             ctr = 1;
         }
