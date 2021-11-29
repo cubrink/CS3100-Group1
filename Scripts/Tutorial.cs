@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class Tutorial : MonoBehaviour
 {
-   public void exitButton() 
+    public void mainScene()
     {
         FindObjectOfType<AudioManager>().Play("buttonClick");
-        Application.Quit();
-        Debug.Log("Game Exited");
-    }
-    public void startGame()
-    {
-        FindObjectOfType<AudioManager>().Play("buttonClick");
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("MainMenu");
     }
 
-    public void tutorialButton()
+    public void next()
+    {
+        FindObjectOfType<AudioManager>().Play("buttonClick");
+        SceneManager.LoadScene("Tutorial2");
+    }
+
+    public void back()
     {
         FindObjectOfType<AudioManager>().Play("buttonClick");
         SceneManager.LoadScene("Tutorial");
