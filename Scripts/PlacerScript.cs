@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlacerScript : MonoBehaviour
 {
@@ -15,7 +16,11 @@ public class PlacerScript : MonoBehaviour
     public GameObject ship5;
     public int roundCount = 3;
     public float roundTime = 20.0f;
+    public float scoreInterval = 5.0f;
+    public Text scoreText;
+    float scoreTimer;
     float roundTimer;
+    int startingScore;
     int roundCounter;
     GameObject currentShip = null;
     ShipScript[] ships;
@@ -26,6 +31,7 @@ public class PlacerScript : MonoBehaviour
     bool newShip = true;
     bool isGameOver = false;
     AudioSource audioSource;
+    ScoringScript score;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +39,9 @@ public class PlacerScript : MonoBehaviour
         roundTimer = roundTime;
         roundCounter = 1;
         audioSource = GetComponent<AudioSource>();
+        score = FindObjectOfType<ScoringScript>();
+        scoreTimer = scoreInterval;
+        startingScore = score.total_score;
     }
 
     // Update is called once per frame
@@ -42,6 +51,13 @@ public class PlacerScript : MonoBehaviour
         {
             //Controls rounds and when ships are active
             roundTimer -= Time.deltaTime;
+            scoreTimer -= Time.deltaTime;
+            if (scoreTimer < 0)
+            {
+                score.UpdateScore();
+                Debug.Log(score.total_score);
+                scoreTimer = scoreInterval;
+            }
             if (roundTimer < 0 && isGameOver == false)
             {
                 Debug.Log("Round " + roundCounter + " Complete");
@@ -52,6 +68,7 @@ public class PlacerScript : MonoBehaviour
                 {
                     Debug.Log("Level Complete");
                     levelEnd = true;
+                    scoreText.text = "Score: " + score.total_score;
                     nextLevel.alpha = 1;
                     //Display score
                 }
@@ -173,6 +190,7 @@ public class PlacerScript : MonoBehaviour
         if (ships.Length <= 1)
         {
             //Display game over
+            score.SetScore(startingScore);
             gameOver.alpha = 1;
             isGameOver = true;
         }
